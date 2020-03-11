@@ -108,7 +108,7 @@ class Blockchain(object):
         guess_hash = hashlib.sha256(guess).hexdigest()
         pass
         # then return True if the guess hash has the valid number of leading zeros otherwise return False
-        return guess_hash[:6] == "000000"
+        return guess_hash[:3] == "000"
 
 
 
@@ -132,7 +132,7 @@ def mine():
         proof = data['proof']
         validProof = blockchain.valid_proof(block_string, proof)
         if validProof:
-            response = {'message': 'New block forged'}
+            response = {'message': 'New Block Forged'}
             return jsonify(response), 200
         else:
             response = {'message': 'Invalid proof or block already mined'}
