@@ -85,6 +85,6 @@ if __name__ == '__main__':
         newBlockForged = data['message'] == 'New Block Forged'
         if newBlockForged:
             coins += 1
-            print(f'{coins} mined so far')
+            print(f'{coins} coins mined so far')
         else:
             print(data['message'])
