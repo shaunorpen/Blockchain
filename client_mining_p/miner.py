@@ -37,7 +37,6 @@ def valid_proof(block_string, proof):
     guess = f"{block_string}{proof}".encode()
     # create a guess hash and hexdigest it
     guess_hash = hashlib.sha256(guess).hexdigest()
-    pass
     # then return True if the guess hash has the valid number of leading zeros otherwise return False
     return guess_hash[:3] == "000"
 
@@ -55,6 +54,8 @@ if __name__ == '__main__':
     id = 'shaun-orpen'
     print("ID is", id)
     # f.close()
+    
+    coins = 0
 
     # Run forever until interrupted
     while True:
@@ -80,7 +81,6 @@ if __name__ == '__main__':
         # TODO: If the server responds with a 'message' 'New Block Forged'
         # add 1 to the number of coins mined and print it.  Otherwise,
         # print the message from the server.
-        coins = 0
 
         newBlockForged = data['message'] == 'New Block Forged'
         if newBlockForged:

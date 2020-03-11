@@ -30,10 +30,10 @@ class Blockchain(object):
 
         block = {
             "index": len(self.chain) + 1,
-            "timestamp": time(),
-            "transactions": self.current_transactions,
-            "proof": proof,
-            "previous_hash": previous_hash or self.hash(self.chain[-1])
+            # "timestamp": time(),
+            # "transactions": self.current_transactions,
+            # "proof": proof,
+            # "previous_hash": previous_hash or self.hash(self.chain[-1])
         }
 
         # Reset the current list of transactions
@@ -74,21 +74,21 @@ class Blockchain(object):
     def last_block(self):
         return self.chain[-1]
 
-    # def proof_of_work(self, block):
-    #     """
-    #     Simple Proof of Work Algorithm
-    #     Stringify the block and look for a proof.
-    #     Loop through possibilities, checking each one against `valid_proof`
-    #     in an effort to find a number that is a valid proof
-    #     :return: A valid proof for the provided block
-    #     """
-    #     block_string = json.dumps(block, sort_keys=True)
-    #     proof = 0
-    #     # loop while the return from a call to valid proof is False
-    #     while self.valid_proof(block_string, proof) is False:
-    #         proof += 1        
-    #     # return proof
-    #     return proof
+    def proof_of_work(self, block):
+        """
+        Simple Proof of Work Algorithm
+        Stringify the block and look for a proof.
+        Loop through possibilities, checking each one against `valid_proof`
+        in an effort to find a number that is a valid proof
+        :return: A valid proof for the provided block
+        """
+        block_string = json.dumps(block, sort_keys=True)
+        proof = 0
+        # loop while the return from a call to valid proof is False
+        while self.valid_proof(block_string, proof) is False:
+            proof += 1        
+        # return proof
+        return proof
 
     @staticmethod
     def valid_proof(block_string, proof):
@@ -106,7 +106,6 @@ class Blockchain(object):
         guess = f"{block_string}{proof}".encode()
         # create a guess hash and hexdigest it
         guess_hash = hashlib.sha256(guess).hexdigest()
-        pass
         # then return True if the guess hash has the valid number of leading zeros otherwise return False
         return guess_hash[:3] == "000"
 
@@ -126,10 +125,12 @@ blockchain = Blockchain()
 def mine():
     data = request.get_json()
 
+    vp = blockchain.proof_of_work(blockchain.last_block)
+
     if 'id' in data.keys() and 'proof' in data.keys():
         last_block = blockchain.last_block
-        block_string = json.dumps(last_block, sort_keys=True).encode()
-        proof = data['proof']
+        block_string = json.dumps(last_block, sort_keys=True)
+        proof = int(data['proof'])
         validProof = blockchain.valid_proof(block_string, proof)
         if validProof:
             response = {'message': 'New Block Forged'}
