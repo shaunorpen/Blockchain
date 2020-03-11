@@ -126,7 +126,6 @@ blockchain = Blockchain()
 def mine():
     data = request.get_json()
 
-    # check data contains id and proof
     if 'id' in data.keys() and 'proof' in data.keys():
         last_block = blockchain.last_block
         block_string = json.dumps(last_block, sort_keys=True).encode()
@@ -138,7 +137,6 @@ def mine():
         else:
             response = {'message': 'Invalid proof or block already mined'}
             return jsonify(response), 400
-    # else return error message
     else:
         response = {'message': 'ID or Proof missing'}
         return jsonify(response), 400
