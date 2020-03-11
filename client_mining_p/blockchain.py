@@ -108,7 +108,7 @@ class Blockchain(object):
         guess_hash = hashlib.sha256(guess).hexdigest()
         pass
         # then return True if the guess hash has the valid number of leading zeros otherwise return False
-        return guess_hash[:3] == "000"
+        return guess_hash[:6] == "000000"
 
 
 
